@@ -1,8 +1,14 @@
 import { Router } from 'express';
-import { retrieveStation } from './handler/station';
+import {
+    retrieveMeasurement,
+    retrieveStation,
+    retrieveVariable,
+} from './handler/station';
 
 const router = Router();
 
-router.get('/stations', retrieveStation);
+router.get('/station', retrieveStation);
+router.get('/variable', retrieveVariable);
+router.get('/measurement', retrieveMeasurement);
 
 export default router;

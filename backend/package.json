@@ -11,7 +11,9 @@
         "test": "npx jest",
         "prod": "node -r dotenv/config dist/src/index.js",
         "db:generate": "npx drizzle-kit generate",
-        "db:migrate": "npx drizzle-kit migrate"
+        "db:migrate": "npx drizzle-kit migrate",
+        "db:seed": "ts-node ./scripts/seed.ts",
+        "db:view": "ts-node ./view-data.ts"
     },
     "dependencies": {
         "@libsql/client": "^0.14.0",
