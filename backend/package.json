@@ -7,7 +7,7 @@
   "main": "index.ts",
   "scripts": {
         "dev": "ts-node -r dotenv/config src/index.ts",
-        "build": "tsc",
+        "build": "tsc --skipLibCheck",
         "test": "npx jest",
         "prod": "node -r dotenv/config dist/src/index.js",
         "db:generate": "npx drizzle-kit generate",

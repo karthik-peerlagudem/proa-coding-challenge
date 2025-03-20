@@ -9,6 +9,7 @@ function convertToSQLiteTimestamp(dateStr: string): string {
 
 async function seed() {
     try {
+        // Sample Stations
         const stations = [
             {
                 stationId: 1,
@@ -61,7 +62,7 @@ async function seed() {
                 site: 'Parkes Solar Farm',
                 portfolio: 'NEOEN',
                 state: 'NSW',
-                latitude: 33.110485,
+                latitude: -33.110485,
                 longitude: 148.101728,
             },
             {
