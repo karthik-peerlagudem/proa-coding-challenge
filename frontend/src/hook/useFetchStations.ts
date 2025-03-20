@@ -21,6 +21,7 @@ export interface Station {
         lng: number;
     };
 }
+const API_END_POINT = import.meta.env.API_END_POINT;
 
 const useFetchStations = () => {
     const [stations, setStations] = useState<Station[]>([]);
@@ -28,9 +29,7 @@ const useFetchStations = () => {
     useEffect(() => {
         const fetchStations = async () => {
             try {
-                const response = await fetch(
-                    'http://localhost:3001/api/station'
-                );
+                const response = await fetch(`${API_END_POINT}/api/station`);
                 const result = await response.json();
 
                 const formattedStations = result.data.map(

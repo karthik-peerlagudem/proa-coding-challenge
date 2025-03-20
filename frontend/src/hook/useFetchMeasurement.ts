@@ -13,6 +13,7 @@ interface UseFetchMeasurementResult {
     loading: boolean;
     error: string | null;
 }
+const API_END_POINT = import.meta.env.API_END_POINT;
 
 const useFetchMeasurement = (stationId: number): UseFetchMeasurementResult => {
     const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -33,7 +34,7 @@ const useFetchMeasurement = (stationId: number): UseFetchMeasurementResult => {
                 setError(null);
 
                 const response = await fetch(
-                    `http://localhost:3001/api/measurement/${stationId}`
+                    `${API_END_POINT}/api/measurement/${stationId}`
                 );
 
                 if (!response.ok) {
