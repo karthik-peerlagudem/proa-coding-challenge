@@ -1,0 +1,27 @@
+services:
+    backend:
+        build: ./backend
+        container_name: backend
+        ports:
+            - '3001:3001'
+        environment:
+            - NODE_ENV=production
+        networks:
+            - app-network
+
+    frontend:
+        build: ./frontend
+        container_name: frontend
+        ports:
+            - '3002:3002'
+        environment:
+            - NODE_ENV=production
+            - VITE_API_URL=http://backend:3001
+
+        depends_on:
+            - backend
+        networks:
+            - app-network
+networks:
+    app-network:
+        driver: bridge

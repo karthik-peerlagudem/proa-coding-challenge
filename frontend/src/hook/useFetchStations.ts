@@ -47,7 +47,6 @@ const useFetchStations = () => {
                     })
                 );
                 setStations(formattedStations);
-                console.log('Stations data loaded:', result.data);
             } catch (error) {
                 console.error('Error fetching stations:', error);
             }
