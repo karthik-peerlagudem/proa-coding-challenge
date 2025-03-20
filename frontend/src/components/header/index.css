@@ -1,0 +1,15 @@
+.header {
+    padding: 1.5rem;
+    background-color: var(--title-color);
+}
+
+.header-container {
+    max-width: 1536px;
+    margin: 0 auto;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    color: var(--body-color);
+    text-align: center;
+}
