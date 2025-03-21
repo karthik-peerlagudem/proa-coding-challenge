@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Station } from '../types/station';
 
 interface StationResponse {
     id: number;
@@ -10,26 +11,22 @@ interface StationResponse {
     longitude: number;
 }
 
-export interface Station {
-    id: number;
-    ws_name: string;
-    site: string;
-    portfolio: string;
-    state: string;
-    position: {
-        lat: number;
-        lng: number;
-    };
-}
-const API_END_POINT = import.meta.env.API_END_POINT;
-
+/**
+ * Custom hook for fetching and formatting weather station data
+ *
+ * @function useFetchStations
+ * @returns {Station[]} stations - Array of formatted station objects
+ *
+ */
 const useFetchStations = () => {
     const [stations, setStations] = useState<Station[]>([]);
 
     useEffect(() => {
         const fetchStations = async () => {
             try {
-                const response = await fetch(`${API_END_POINT}/api/station`);
+                const response = await fetch(
+                    `http://localhost:3001/api/station`
+                );
                 const result = await response.json();
 
                 const formattedStations = result.data.map(

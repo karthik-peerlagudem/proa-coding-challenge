@@ -29,7 +29,6 @@ export const retrieveStation = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error fetching stations:', error);
         res.status(500).json({
-            success: false,
             error: 'Failed to retrieve stations',
         });
     }
@@ -47,8 +46,20 @@ export const retrieveMeasurement: any = async (req: Request, res: Response) => {
 
         if (!stationId) {
             return res.status(400).json({
-                success: false,
                 error: 'Station ID is required',
+            });
+        }
+
+        //check if the station exists
+        const station = await db
+            .select()
+            .from(Station)
+            .where(eq(Station.stationId, parseInt(stationId)))
+            .limit(1);
+
+        if (!station.length) {
+            return res.status(404).json({
+                error: 'Station not found',
             });
         }
 
@@ -63,6 +74,13 @@ export const retrieveMeasurement: any = async (req: Request, res: Response) => {
                 eq(Variable.variableId, Measurement.variableId)
             )
             .where(eq(Variable.stationId, stationId));
+
+        // If no measurements exist, return empty array
+        if (!latestTimestamp[0].maxTime) {
+            return res.status(200).json({
+                data: [],
+            });
+        }
 
         // Get measurements for all variables at this timestamp
         const latestMeasurements = await db
@@ -83,12 +101,6 @@ export const retrieveMeasurement: any = async (req: Request, res: Response) => {
             )
             .where(eq(Variable.stationId, stationId));
 
-        if (!latestMeasurements.length) {
-            return res.status(404).json({
-                success: false,
-                error: 'No measurements found for this station',
-            });
-        }
         const formattedMeasurements = latestMeasurements.map((m) => ({
             ...m,
             timestamp: formatTimestamp(m.timestamp),
@@ -100,7 +112,6 @@ export const retrieveMeasurement: any = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error fetching measurements:', error);
         res.status(500).json({
-            success: false,
             error: 'Failed to retrieve measurements',
         });
     }

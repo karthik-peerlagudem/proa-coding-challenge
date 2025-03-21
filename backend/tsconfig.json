@@ -1,11 +1,21 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "outDir": "./dist",
+      "rootDir": ".",
+      "strict": true,
+      "esModuleInterop": true,
       "skipLibCheck": true,
-      "sourceMap": true,
-      "outDir": "dist",
-      "lib": ["esnext"],
-      "esModuleInterop": true
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist"]
-  }
+      "forceConsistentCasingInFileNames": true,
+      "types": ["jest", "node", "supertest"]
+  },
+  "include": [
+      "src/**/*",
+      "tests/**/*",
+      "jest.config.ts"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-
-export interface Measurement {
-    value: string;
-    timestamp: string;
-    variableName: string;
-    longName: string;
-    unit: string;
-}
+import { Measurement } from '../types/station';
 
 interface UseFetchMeasurementResult {
     measurements: Measurement[];
     loading: boolean;
     error: string | null;
 }
-const API_END_POINT = import.meta.env.API_END_POINT;
 
+/**
+ * Custom hook for fetching measurements from a weather station
+ *
+ * @function useFetchMeasurement
+ * @param {number} stationId - ID of the weather station to fetch measurements from
+ * @returns {UseFetchMeasurementResult} Object containing measurements, loading state, and error
+ *
+ *
+ */
 const useFetchMeasurement = (stationId: number): UseFetchMeasurementResult => {
     const [measurements, setMeasurements] = useState<Measurement[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +35,7 @@ const useFetchMeasurement = (stationId: number): UseFetchMeasurementResult => {
                 setError(null);
 
                 const response = await fetch(
-                    `${API_END_POINT}/api/measurement/${stationId}`
+                    `http://localhost:3001/api/measurement/${stationId}`
                 );
 
                 if (!response.ok) {

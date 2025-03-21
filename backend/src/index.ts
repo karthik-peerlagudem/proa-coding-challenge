@@ -1,7 +1,9 @@
-import dotenv from 'dotenv';
-import app from './server';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
+
+import dotenv from 'dotenv';
+
+import app from './server';
 import { config as projectConfig } from '../config';
 
 dotenv.config();

@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+      "jsx": "react-jsx",
+      "module": "ES2022",                    // Changed from commonjs
+      "moduleResolution": "bundler",         // Changed from node
+      "esModuleInterop": true,
+      "types": [
+          "jest",
+          "node",
+          "@testing-library/jest-dom",
+          "vite/client"                      
+      ],
+      "isolatedModules": true
+  },
+  "include": [
+      "src/**/*.test.ts",
+      "src/**/*.test.tsx",
+      "src/**/*.spec.ts",
+      "src/**/*.spec.tsx",
+      "src/types/**/*.d.ts"
+  ]
+}

@@ -1,3 +1,11 @@
-.git.*frontend/.env
+logs
+*.log
+npm-debug.log*
 
-.git.*
+.env
+
+node_modules
+dist
+
+.vscode/*
+

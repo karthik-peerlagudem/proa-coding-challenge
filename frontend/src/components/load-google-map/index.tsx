@@ -5,19 +5,34 @@ import {
     useLoadScript,
 } from '@react-google-maps/api';
 
-import useFetchStations, { Station } from '../../hook/useFetchStations';
-
 import StationInfoWindow from '../station-info-window';
 import MapContent from './MapContent';
 
-// Get API key from environment
+import useFetchStations, { Station } from '../../hook/useFetchStations';
+
+/**
+ * Google Maps API key from environment variables
+ * @constant {string}
+ */
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+/** Validate required environment variables */
+if (!apiKey) {
+    throw new Error('VITE_GOOGLE_MAPS_API_KEY is required in .env file');
+}
+
+/**
+ * Map container style configuration
+ */
 const mapContainerStyle = {
     width: '100%',
     height: '100%',
 };
 
+/**
+ * Google Maps options configuration
+ * @constant {google.maps.MapOptions}
+ */
 const mapOptions = {
     disableDefaultUI: true,
     zoomControl: true,
@@ -26,23 +41,48 @@ const mapOptions = {
     streetViewControl: true,
 };
 
-const LoadGoogleMap = () => {
+interface LoadGoogleMapProps {
+    selectedState: string;
+}
+
+/**
+ * LoadGoogleMap Component
+ *
+ * @component
+ * @description Renders a Google Map with weather station markers and info windows
+ *
+ * @param {LoadGoogleMapProps} props - Component props
+ * @param {string} props.selectedState - Selected state for filtering stations
+ *
+ */
+const LoadGoogleMap = ({ selectedState }: LoadGoogleMapProps) => {
     const [selectedStation, setSelectedStation] = useState<Station | null>(
         null
     );
     const [infoWindowKey, setInfoWindowKey] = useState<number>(0);
-    const { stations } = useFetchStations();
     const mapRef = useRef<GoogleMapType | null>(null);
     const hasSelectedStation = useRef<boolean>(false);
 
-    // Initialize with Google Maps API
+    /** Load Google Maps script and handle initialization */
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: apiKey,
     });
 
+    /** Fetch stations data using custom hook */
+    const { stations } = useFetchStations();
+
+    // Filter stations based on selected state
+    const filteredStations = stations.filter((station) =>
+        selectedState === 'All' ? true : station.state === selectedState
+    );
+
+    /** Default map center position */
     const defaultPosition = { lat: -31.2744, lng: 140.7751 };
 
-    // Save map reference when loaded
+    /**
+     * Callback to store map reference when loaded
+     * @param {google.maps.Map} map - Google Maps instance
+     */
     const onMapLoad = useCallback(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (map: any) => {
@@ -51,6 +91,9 @@ const LoadGoogleMap = () => {
         []
     );
 
+    /**
+     * Effect to handle map position updates when station is selected
+     */
     useEffect(() => {
         if (selectedStation && mapRef.current) {
             mapRef.current.panTo(selectedStation.position);
@@ -70,7 +113,10 @@ const LoadGoogleMap = () => {
         }
     }, [selectedStation]);
 
-    // Handle marker click
+    /**
+     * Handles marker click events
+     * @param {Station} station - The clicked station
+     */
     const handleMarkerClick = (station: Station) => {
         if (selectedStation && selectedStation.id === station.id) {
             setSelectedStation(null);
@@ -90,6 +136,9 @@ const LoadGoogleMap = () => {
         hasSelectedStation.current = true;
     };
 
+    /**
+     * Handles info window close events
+     */
     const handleInfoWindowClose = () => {
         setSelectedStation(null);
 
@@ -100,7 +149,6 @@ const LoadGoogleMap = () => {
     };
 
     if (loadError) return <div>Error loading maps</div>;
-
     if (!isLoaded) return <div>Loading maps...</div>;
 
     return (
@@ -121,7 +169,7 @@ const LoadGoogleMap = () => {
                 onLoad={onMapLoad}
             >
                 <MapContent
-                    stations={stations}
+                    stations={filteredStations}
                     handleMarkerClick={handleMarkerClick}
                 />
 

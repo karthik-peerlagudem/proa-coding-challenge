@@ -1,15 +1,22 @@
 import { db } from '../src/index';
 import { Measurement, Station, Variable } from '../src/db/schema';
 
-function convertToSQLiteTimestamp(dateStr: string): string {
-    const [datePart, timePart] = dateStr.split(' ');
-    const [day, month, year] = datePart.split('/');
-    return new Date(`${year}-${month}-${day}T${timePart}.000Z`).toISOString();
-}
+import { convertToSQLiteTimestamp } from '../src/lib/util';
 
+/**
+ * Seeds the database with sample weather station data
+ * Includes stations, variables, and measurements data
+ *
+ * Data Structure:
+ * - Stations: Weather station locations and metadata
+ * - Variables: Measurement types for each station
+ * - Measurements: Actual weather measurements with timestamps
+ *
+ * @async
+ * @throws {Error} If database operations fail
+ */
 async function seed() {
     try {
-        // Sample Stations
         const stations = [
             {
                 stationId: 1,
