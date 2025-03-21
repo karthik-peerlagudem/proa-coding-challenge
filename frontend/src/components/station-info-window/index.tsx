@@ -1,5 +1,5 @@
 import { InfoWindowF } from '@react-google-maps/api';
-import { Station } from '../../hook/useFetchStations';
+import { Station } from '../../types/station';
 import useFetchMeasurement from '../../hook/useFetchMeasurement';
 
 interface StationInfoWindowProps {

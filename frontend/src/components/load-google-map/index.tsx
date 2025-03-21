@@ -8,7 +8,8 @@ import {
 import StationInfoWindow from '../station-info-window';
 import MapContent from './MapContent';
 
-import useFetchStations, { Station } from '../../hook/useFetchStations';
+import useFetchStations from '../../hook/useFetchStations';
+import { Station } from '../../types/station';
 
 /**
  * Google Maps API key from environment variables

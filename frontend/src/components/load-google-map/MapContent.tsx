@@ -1,4 +1,4 @@
-import { Station } from '../../hook/useFetchStations';
+import { Station } from '../../types/station';
 import { MarkerF } from '@react-google-maps/api';
 
 interface MapContentProps {
